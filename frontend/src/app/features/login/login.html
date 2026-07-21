@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+
+<div class="login-container">
+  <p-card header="System Login" [style]="{ width: '25rem' }">
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input pInputText id="email" [(ngModel)]="email" type="email" placeholder="me@emails.com" />
+    </div>
+    <div class="form-field">
+      <label for="password">password</label>
+      <p-password
+        id="password"
+        [(ngModel)]="password"
+        type="password"
+        [feedback]="false"
+        placeholder="Enter Password"
+      />
+    </div>
+    <div class="form-actions">
+      <p-button
+        label="Register"
+        (onClick)="onRegister()"
+        severity="secondary"
+        [text]="true"
+      ></p-button>
+      <p-button label="Login" (onClick)="onLogin()"></p-button>
+    </div>
+  </p-card>
+</div>

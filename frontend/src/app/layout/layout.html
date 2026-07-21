@@ -1,0 +1,35 @@
+<div class="app-container">
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="pi pi-box" style="font-size: 1.5rem"></i>
+      <span>DAILY</span>
+    </div>
+    <ul class="nav-menu">
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" class="active">
+          <i class="pi pi-folder"></i> Material Master
+        </a>
+      </li>
+    </ul>
+
+    <!-- Logout anchored to the bottom -->
+    <div class="user-profile-section">
+      <div class="user-info">
+        <div class="custom-avatar">{{ userId }}</div>
+        <div class="user-details">
+          <span class="user-name">User ID: {{ userId }}</span>
+          <span class="user-email">{{ userEmail }}</span>
+        </div>
+      </div>
+
+      <a href="javascript:void(0)" (click)="logout()" class="logout-btn">
+        <i class="pi pi-sign-out"></i>
+        <span>Log out</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

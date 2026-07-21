@@ -1,0 +1,55 @@
+@import 'primeicons/primeicons.css';
+
+:root {
+  /* Our Custom Variables */
+  --surface-ground: #f4f7f6;
+  --surface-card: #ffffff;
+  --surface-border: #e9ecef;
+  --text-color: #333333;
+  --text-color-secondary: #6c757d;
+
+  /* Override PrimeNG internal variables to prevent any styling conflicts */
+  --p-surface-0: var(--surface-card);
+  --p-surface-ground: var(--surface-ground);
+  --p-surface-200: var(--surface-border);
+  --p-text-color: var(--text-color);
+  --p-text-muted-color: var(--text-color-secondary);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--surface-ground);
+  color: var(--text-color);
+}
+
+div[style*='z-index:999999999'] {
+  display: none !important;
+}
+
+/* --- Toast Timeout Progress Bar (Right to Left) --- */
+.p-toast-message {
+  position: relative;
+  overflow: hidden;
+}
+
+.p-toast-message::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0; /* Anchors the start of the bar to the right side */
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  /* The 3s duration exactly matches the 'life: 3000' setting in your mat-mst.ts */
+  animation: toast-timeout 3s linear forwards;
+}
+
+@keyframes toast-timeout {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  } /* Shrinks to 0 width towards the left */
+}

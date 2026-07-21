@@ -1,0 +1,192 @@
+<p-toast></p-toast>
+<p-confirmdialog [style]="{ width: '450px' }"></p-confirmdialog>
+
+<div class="page-header">
+  <h2 class="page-title">Material Master</h2>
+  <div style="display: flex; gap: 0.75rem">
+    <p-button
+      icon="pi pi-sync"
+      [outlined]="true"
+      severity="secondary"
+      (onClick)="loadMaterials(true)"
+    ></p-button>
+    <p-button
+      label="Mass Import"
+      icon="pi pi-file-excel"
+      [outlined]="true"
+      severity="secondary"
+      (onClick)="openBulk()"
+    ></p-button>
+    <p-button
+      label="New Material"
+      icon="pi pi-plus"
+      [outlined]="true"
+      severity="secondary"
+      (onClick)="openNew()"
+    ></p-button>
+  </div>
+</div>
+
+<div class="table-card">
+  <p-table [value]="materials" [tableStyle]="{ 'min-width': '50rem' }">
+    <!-- Table Header -->
+    <!-- Table Header -->
+    <!-- Table Header -->
+    <ng-template #header>
+      <tr>
+        <th>MATERIAL CODE</th>
+        <th>MATERIAL</th>
+        <th>QUANTITY</th>
+        <th>PRICE</th>
+        <th style="width: 8rem">ACTION</th>
+      </tr>
+    </ng-template>
+
+    <!-- Single Unified Table Body -->
+    <!-- Single Unified Table Body -->
+    <ng-template #body let-material>
+      <tr>
+        <td class="text-secondary">{{ material.MatCode }}</td>
+        <td>
+          <strong>{{ material.MatName }}</strong>
+        </td>
+        <td>{{ material.MatQty }}</td>
+        <td>{{ material.MatPrice | currency: 'INR' }}</td>
+        <td>
+          <p-button
+            icon="pi pi-file-edit"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            styleClass="hover-edit"
+            (onClick)="editMaterial(material)"
+          ></p-button>
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            styleClass="hover-delete"
+            (onClick)="deleteMaterial(material)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Empty State Message -->
+    <ng-template #emptyMessage>
+      <tr>
+        <td colspan="5" class="empty-table-message">
+          No materials found in the database. Click "New Material" to add one.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  header="Material Details"
+  [(visible)]="materialDialog"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+>
+  <form [formGroup]="matForm" (ngSubmit)="saveMaterial()" class="material-form">
+    <div class="form-group">
+      <label for="code">Material Code</label>
+      <input
+        pInputText
+        id="code"
+        formControlName="MatCode"
+        autocomplete="off"
+        style="width: 100%"
+      />
+    </div>
+    <div class="form-group">
+      <label for="name">Material Name</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="MatName"
+        autocomplete="off"
+        style="width: 100%"
+      />
+    </div>
+    <div class="form-group">
+      <label for="qty">Quantity</label>
+      <input
+        pInputText
+        type="number"
+        id="qty"
+        formControlName="MatQty"
+        style="width: 100%"
+        autocomplete="off"
+      />
+    </div>
+    <div class="form-group">
+      <label for="price">Price (INR)</label>
+      <input
+        pInputText
+        type="number"
+        id="price"
+        formControlName="MatPrice"
+        style="width: 100%"
+        autocomplete="off"
+        step="0.01"
+      />
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        label="Cancel"
+        severity="secondary"
+        [text]="true"
+        (onClick)="hideDialog()"
+        type="button"
+      ></p-button>
+      <p-button label="Save" type="submit" [disabled]="matForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  header="Mass Import Materials (CSV)"
+  [(visible)]="bulkDialog"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+>
+  <div style="margin-bottom: 1.5rem; line-height: 1.5">
+    <p style="margin-top: 0">Enter comma-separated values, one material per line.</p>
+    <div
+      style="
+        background: var(--surface-ground);
+        padding: 0.75rem;
+        border-radius: 6px;
+        border: 1px dashed var(--surface-border);
+      "
+    >
+      <span style="color: var(--text-color-secondary); font-size: 0.9rem">Type exactly as:</span
+      ><br />
+      <strong>MatCode, MatName, MatQty, MatPrice</strong>
+    </div>
+  </div>
+
+  <textarea
+    class="bulk-textarea"
+    [formControl]="bulkControl"
+    rows="12"
+    placeholder="M001, Steel Pipe, 100, 25.50&#10;M002, Copper Wire, 50, 15.00"
+  ></textarea>
+
+  <div
+    class="form-footer"
+    style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem"
+  >
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [text]="true"
+      (onClick)="bulkDialog = false"
+    ></p-button>
+    <p-button label="Import" (onClick)="saveBulk()" [disabled]="bulkControl.invalid"></p-button>
+  </div>
+</p-dialog>

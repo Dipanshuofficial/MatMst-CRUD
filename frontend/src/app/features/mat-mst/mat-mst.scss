@@ -1,0 +1,123 @@
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns items to the left */
+  gap: 0.75rem; /* Adds space between title and button */
+  margin-bottom: 1.5rem;
+
+  .page-title {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+}
+
+/* Enforcing a strict rectangular shape to override any default pill styling */
+::ng-deep .custom-action-btn {
+  border-radius: 6px !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.table-card {
+  background: var(--surface-card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  /* ::ng-deep forces styles into the child PrimeNG component */
+  ::ng-deep {
+    th {
+      color: var(--text-color-secondary) !important;
+      font-weight: 600 !important;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      padding-bottom: 1rem !important;
+      border-bottom: 1px solid var(--surface-border) !important;
+    }
+
+    td {
+      padding: 1rem 0 !important;
+      border-bottom: 1px solid var(--surface-border) !important;
+      color: var(--text-color) !important;
+    }
+
+    .text-secondary {
+      color: var(--text-color-secondary) !important;
+    }
+
+    .empty-table-message {
+      text-align: center;
+      padding: 2rem !important;
+      color: var(--text-color-secondary) !important;
+      font-style: italic;
+    }
+  }
+}
+
+.material-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+  }
+}
+
+.bulk-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  background: var(--surface-card);
+  color: var(--text-color);
+  font-family: monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+
+  &:focus {
+    outline: 0 none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+  }
+}
+
+/* Action Button Hover States */
+::ng-deep .hover-edit:hover {
+  background-color: var(--green-50, #f0fdf4) !important;
+  color: var(--green-500, #22c55e) !important;
+
+  .pi {
+    color: var(--green-500, #22c55e) !important;
+  }
+}
+
+::ng-deep .hover-delete:hover {
+  background-color: var(--red-50, #fef2f2) !important;
+  color: var(--red-500, #ef4444) !important;
+
+  .pi {
+    color: var(--red-500, #ef4444) !important;
+  }
+}
