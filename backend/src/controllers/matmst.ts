@@ -117,20 +117,23 @@ export const bulkCreateMaterial = async (
       userId,
     ]);
 
-    // Upgrade to an UPSERT: Insert if new, Update if already exists
+    // Upgrade to an UPSERT: Insert if new, Update if already exists (MySQL 8.4+ compliant)
     await pool.query(
       `INSERT INTO MatMst (MatCode, MatName, MatQty, MatPrice, user_id) 
-       VALUES ? 
+       VALUES ? AS new_materials
        ON DUPLICATE KEY UPDATE 
-       MatName = VALUES(MatName), 
-       MatQty = VALUES(MatQty), 
-       MatPrice = VALUES(MatPrice)`,
+       MatName = new_materials.MatName, 
+       MatQty = new_materials.MatQty, 
+       MatPrice = new_materials.MatPrice`,
       [values],
     );
 
     res.status(201).json({ message: "Materials mass imported successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error mass creating materials." });
+    console.error("Mass import database error:", error);
+    res.status(500).json({
+      message: "Error mass creating materials.",
+      error: (error as Error).message,
+    });
   }
 };

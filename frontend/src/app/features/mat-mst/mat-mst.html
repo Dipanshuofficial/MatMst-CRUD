@@ -30,8 +30,6 @@
 <div class="table-card">
   <p-table [value]="materials" [tableStyle]="{ 'min-width': '50rem' }">
     <!-- Table Header -->
-    <!-- Table Header -->
-    <!-- Table Header -->
     <ng-template #header>
       <tr>
         <th>MATERIAL CODE</th>
@@ -42,7 +40,6 @@
       </tr>
     </ng-template>
 
-    <!-- Single Unified Table Body -->
     <!-- Single Unified Table Body -->
     <ng-template #body let-material>
       <tr>
@@ -74,7 +71,7 @@
     </ng-template>
 
     <!-- Empty State Message -->
-    <ng-template #emptyMessage>
+    <ng-template #emptymessage>
       <tr>
         <td colspan="5" class="empty-table-message">
           No materials found in the database. Click "New Material" to add one.
