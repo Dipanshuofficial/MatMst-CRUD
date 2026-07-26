@@ -27,8 +27,8 @@ const dbConfig: PoolOptions = {
   password: process.env.DB_PASSWORD ?? "",
   database: process.env.DB_NAME ?? "",
   ssl: {
-    rejectUnauthorized: true,
-    ca: fs.readFileSync("./ca.pem"), // Ready to uncomment if a custom CA file is ever needed
+    rejectUnauthorized: false,
+    // ca: fs.readFileSync("./ca.pem"), // Ready to uncomment if a custom CA file is ever needed
   },
   waitForConnections: true,
   connectionLimit: 10,
