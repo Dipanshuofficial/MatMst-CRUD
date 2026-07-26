@@ -16,7 +16,7 @@ async function setupDB() {
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
-            ca: fs.readFileSync(__dirname + '/ca.pem'),
+            ca: fs.readFileSync(__dirname + '/s=ca.pem'),
             rejectUnauthorized: true
         });
         console.log("✅ Connected to Aiven MySQL!");
@@ -32,16 +32,19 @@ async function setupDB() {
         //     console.log("✅ Users table created.");
 
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS MatMst (
-          MatCode VARCHAR(50) PRIMARY KEY,
+          CREATE TABLE IF NOT EXISTS MatMst (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          MatCode VARCHAR(50) NOT NULL,
           MatName VARCHAR(255) NOT NULL,
           MatQty INT DEFAULT 0,
           MatPrice DECIMAL(10, 2) DEFAULT 0.00,
           user_id INT NOT NULL,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE KEY uk_user_matcode (user_id, MatCode),
           FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
-      )
-    `);
+          )
+        `);
+
         console.log("✅ MatMst table created.");
         await connection.end();
     } catch (err) {

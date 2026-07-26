@@ -18,7 +18,13 @@ export const createMaterial = async (
     );
 
     res.status(201).json({ message: "Material created successfully" });
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "ER_DUP_ENTRY") {
+      res.status(409).json({
+        message: `MatCode "${req.body.MatCode}" already exists in your inventory`,
+      });
+      return;
+    }
     console.error(error);
     res.status(500).json({ message: "Error creating material" });
   }
@@ -103,6 +109,16 @@ export const bulkCreateMaterial = async (
       res
         .status(400)
         .json({ message: "Invalid payload, expected an array of materials" });
+      return;
+    }
+
+    const invalidRow = materials.findIndex(
+      (m: any) => !m.MatCode || !m.MatName,
+    );
+    if (invalidRow !== -1) {
+      res.status(400).json({
+        message: `Row ${invalidRow + 1} is missing MatCode or MatName`,
+      });
       return;
     }
 

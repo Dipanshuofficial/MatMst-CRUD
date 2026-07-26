@@ -16,6 +16,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService, SharedModule } from 'primeng/api';
 import { Material, MatMstService } from '../../core/services/mat-mst';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-mat-mst',
@@ -138,13 +139,21 @@ export class MatMstComponent implements OnInit {
       });
     }
 
+    const codes = bulkData.map((m) => m.MatCode);
+    const dupes = codes.filter((c, i) => codes.indexOf(c) !== i);
+    if (dupes.length > 0) {
+      this.showError(`Duplicate MatCode(s) in your pasted data: ${[...new Set(dupes)].join(', ')}`);
+      return;
+    }
+
     this.matMstService.createBulkMaterials(bulkData).subscribe({
       next: () => {
         this.showSuccess('Mass import successful');
         this.loadMaterials();
         this.bulkDialog = false;
       },
-      error: () => this.showError('Error during mass import. Check for duplicate MatCodes.'),
+      error: (err: HttpErrorResponse) =>
+        this.showError(err.error?.message || 'Error during mass import.'),
     });
   }
 
