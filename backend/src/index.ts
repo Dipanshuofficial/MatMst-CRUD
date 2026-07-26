@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from "../src/routes/auth.js";
-import matmstRoutes from "../src/routes/matmst.js";
+import authRoutes from "./routes/auth.js";
+import matmstRoutes from "./routes/matmst.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
